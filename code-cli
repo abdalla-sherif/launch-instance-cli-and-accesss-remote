@@ -1,0 +1,9 @@
+#create key pair
+aws ec2 create-key-pair --key-name test-key --key-format ppk --query "KeyMaterial" --output text > test-key.ppk
+#create security group
+aws ec2 create-security-group --group-name MytestSecurityGroup --description "My test security group"
+#put rules
+aws ec2 authorize-security-group-ingress    --group-id sg-0f39bfabd2ad89066    --protocol tcp     --port 22     --cidr 156.203.186.145/32
+aws ec2 authorize-security-group-ingress    --group-id sg-0f39bfabd2ad89066    --protocol tcp     --port 80     --cidr 156.203.186.145/32
+#create instance
+aws ec2 run-instances     --image-id ami-0fa91bc90632c73c9    --instance-type t3.micro     --count 1     --key-name test-key     --security-group-ids sg-0f39bfabd2ad89066
